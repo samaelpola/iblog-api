@@ -1,0 +1,28 @@
+services:
+    app:
+        build:
+            context: .
+            target: dev
+        image: iblog-api:latest
+        volumes:
+            -   ./:/app
+        ports:
+            -   "3000:3000"
+        env_file:
+            -   .env
+        depends_on:
+            postgres:
+                condition: service_started
+
+    postgres:
+        image: postgres:17.0-alpine
+        env_file:
+            -   .env
+
+    adminer:
+        image: adminer
+        ports:
+            - "8080:8080"
+        depends_on:
+            postgres:
+                condition: service_started

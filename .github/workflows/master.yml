@@ -1,0 +1,79 @@
+name: CI/CD Backend API
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  NODE_VERSION: 23.9.0
+
+jobs:
+  run-lint-test:
+    name: Run Lint Test Workflow
+    if: "!startsWith(github.event.head_commit.message, 'chore(release):')"
+    uses: ./.github/workflows/lint-test.yml
+    secrets: inherit
+
+  release:
+    name: Generate Release Tag
+    runs-on: ubuntu-latest
+    needs: [run-lint-test]
+    if: "!startsWith(github.event.head_commit.message, 'chore(release):')"
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install Dependencies
+        run: |
+          npm install @semantic-release/{changelog,commit-analyzer,exec,git,github,release-notes-generator}
+
+      - name: Create .releaserc.json
+        run: |
+          cat << EOF > .releaserc.json
+          {
+            "branches": ["main"],
+            "plugins": [
+              "@semantic-release/commit-analyzer",
+              "@semantic-release/release-notes-generator",
+              "@semantic-release/github",
+              [
+                "@semantic-release/exec",
+                {
+                  "prepareCmd": "echo RELEASE_VERSION=\${nextRelease.version} >> \$GITHUB_ENV"
+                }
+              ],
+              [
+                "@semantic-release/changelog",
+                {
+                  "changelogFile": "CHANGELOG.md"
+                }
+              ],
+              [
+                "@semantic-release/git",
+                {
+                  "assets": ["CHANGELOG.md"],
+                  "message": "chore(release): \${nextRelease.version}\n\n\${nextRelease.notes}"
+                }
+              ]
+            ]
+          }
+          EOF
+
+      - name: Run Semantic Release
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx semantic-release
+
+      - name: Display Generated Version
+        run: echo "Release version is ${{ env.RELEASE_VERSION }}"
