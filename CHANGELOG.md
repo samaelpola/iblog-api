@@ -1,3 +1,10 @@
+# 1.0.0 (2025-04-19)
+
+
+### Features
+
+* iblog api ([6f1487e](https://github.com/samaelpola/iblog-api/commit/6f1487ee147086439b64485bc1bd63149481ed96))
+
 ## [1.0.7](https://github.com/samaelpola/iblog-api/compare/v1.0.6...v1.0.7) (2025-04-19)
 
 
