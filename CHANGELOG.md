@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/samaelpola/iblog-api/compare/v1.1.0...v1.1.1) (2025-04-21)
+
+
+### Bug Fixes
+
+* allow cors origins ([e573083](https://github.com/samaelpola/iblog-api/commit/e57308316859256f373a142ae206d7c3ae8aa644))
+
 # [1.1.0](https://github.com/samaelpola/iblog-api/compare/v1.0.0...v1.1.0) (2025-04-21)
 
 
