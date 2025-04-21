@@ -81,6 +81,12 @@ authRouter.post("/login", async (req, res) => {
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/AccessTokenResponse'
+ *       401:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  *       403:
  *         description: Invalid or expired refresh token
  *         content:
@@ -90,6 +96,13 @@ authRouter.post("/login", async (req, res) => {
  */
 authRouter.post("/refresh", (req, res) => {
   const refreshToken = req.cookies?.refreshToken;
+
+  if (!refreshToken) {
+    res
+      .status(StatusCodes.UNAUTHORIZED)
+      .json({ detail: "Refresh Token Cookie not found" });
+    return;
+  }
 
   try {
     const newAccessToken = jwtService.refreshAccessToken(refreshToken);
