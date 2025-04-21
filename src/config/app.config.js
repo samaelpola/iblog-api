@@ -1,6 +1,9 @@
 import "dotenv/config";
 import path from "node:path";
 
+const allowedOrigins =
+  process.env.CORS_ALLOW_ORIGINS?.split(",").map((o) => o.trim()) ?? [];
+
 export const appConfig = {
   APP_ENV: process.env.NODE_ENV,
   APP_DIR_IMG_PATH: path.resolve(process.cwd(), "images", "articles"),
@@ -11,6 +14,15 @@ export const appConfig = {
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
   JWT_ACCESS_TOKEN_EXPIRES_IN: process.env.JWT_ACCESS_TOKEN_EXPIRES_IN,
   JWT_REFRESH_TOKEN_EXPIRES_IN: process.env.JWT_REFRESH_TOKEN_EXPIRES_IN,
+  corsOptions: {
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+  },
   getDatabaseConfig: () => ({
     dialect: "postgres",
     database: process.env.POSTGRES_DB ?? "mydb",
