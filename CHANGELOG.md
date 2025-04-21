@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/samaelpola/iblog-api/compare/v1.1.1...v1.1.2) (2025-04-21)
+
+
+### Bug Fixes
+
+* refresh token ([50f616b](https://github.com/samaelpola/iblog-api/commit/50f616bb636f26b9649f11c85e1668731240aa9b))
+
 ## [1.1.1](https://github.com/samaelpola/iblog-api/compare/v1.1.0...v1.1.1) (2025-04-21)
 
 
