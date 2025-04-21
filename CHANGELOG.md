@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/samaelpola/iblog-api/compare/v1.0.0...v1.1.0) (2025-04-21)
+
+
+### Features
+
+* allow cors ([b1b9d29](https://github.com/samaelpola/iblog-api/commit/b1b9d291aa1b98649a6d3f3b545f3af093d7492c))
+
 # 1.0.0 (2025-04-19)
 
 
