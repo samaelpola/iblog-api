@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import * as fs from "node:fs";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
+import cors from "cors";
 import { authMiddleware } from "./middlewares/index.js";
 import { appConfig, swaggerOptions } from "./config/index.js";
 import {
@@ -15,6 +16,7 @@ import {
 
 export const createApp = () => {
   const app = express();
+  const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
   fs.mkdirSync(appConfig.APP_DIR_IMG_PATH, { recursive: true });
   fs.mkdirSync(appConfig.APP_DIR_IMG_TMP_PATH, { recursive: true });
@@ -27,8 +29,7 @@ export const createApp = () => {
   app.use(cookieParser());
   app.use(express.urlencoded({ extended: false }));
   app.use(express.json());
-  const swaggerSpec = swaggerJsdoc(swaggerOptions);
-
+  app.use(cors());
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   app.use("/images/articles", express.static(appConfig.APP_DIR_IMG_PATH));
   app.use("/auth", authRouter);
