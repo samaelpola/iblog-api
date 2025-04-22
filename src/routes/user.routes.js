@@ -5,6 +5,7 @@ import { subject as defineSubject } from "@casl/ability";
 import { validateSchema } from "../schemas/index.js";
 import {
   authMiddleware,
+  authNoRequiredMiddleware,
   checkPermission,
   checkUserExist,
 } from "../middlewares/index.js";
@@ -147,6 +148,8 @@ userRouter.post(
   "/",
   checkSchema(userValidationRules),
   validateSchema,
+  authNoRequiredMiddleware,
+  checkPermission("create", (req) => defineSubject("User", req.body)),
   async (req, res) => {
     return res.status(StatusCodes.CREATED).json(await createUser(req.body));
   },

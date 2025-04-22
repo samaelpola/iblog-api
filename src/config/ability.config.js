@@ -10,6 +10,12 @@ export const defineAbilitiesFor = (user) => {
     return build();
   }
 
+  can("create", "User");
+  cannot("create", "User", {
+    roles: {
+      $elemMatch: { $eq: AppUserRole.ADMIN },
+    },
+  });
   can("read", "Article");
   can("read", "Category");
   cannot("update", "Article", ["authorId"]);

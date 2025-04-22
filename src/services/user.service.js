@@ -1,5 +1,7 @@
+import { Op } from "sequelize";
 import { User } from "../models/index.js";
 import bcrypt from "bcrypt";
+import { AppUserRole } from "../utils/index.js";
 
 const getByEmail = async (email) => {
   return await User.findOne({
@@ -80,8 +82,21 @@ const updateUser = async (user, data) => {
   return user;
 };
 
+const checkAdminExist = async () => {
+  const admin = await User.findOne({
+    where: {
+      roles: {
+        [Op.contains]: [AppUserRole.ADMIN],
+      },
+    },
+  });
+
+  return admin !== null;
+};
+
 export {
   checkEmailAlreadyExist,
+  checkAdminExist,
   createUser,
   deleteUser,
   getUser,
