@@ -1,6 +1,7 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
 import { checkSchema } from "express-validator";
+import { subject as defineSubject } from "@casl/ability";
 import {
   getArticles,
   createArticle,
@@ -11,6 +12,7 @@ import {
 import {
   authMiddleware,
   checkArticleExist,
+  checkPermission,
   removeUploadedFileMiddleware,
   upload,
 } from "../middlewares/index.js";
@@ -122,6 +124,7 @@ articleRouter.post(
   removeUploadedFileMiddleware,
   checkSchema(articleValidationRules),
   validateSchema,
+  checkPermission("create", () => "Article"),
   async (req, res) => {
     const article = await createArticle(req.body, req.category, req.author);
 
@@ -201,6 +204,11 @@ articleRouter.patch(
   checkSchema(articlePatchValidationRules),
   validateSchema,
   checkArticleExist,
+  checkPermission(
+    "update",
+    (req) => defineSubject("Article", req.article),
+    (req) => Object.keys(req.body),
+  ),
   async (req, res) => {
     const article = await updateArticle(
       req.article,
@@ -251,6 +259,7 @@ articleRouter.delete(
   "/:articleId",
   authMiddleware,
   checkArticleExist,
+  checkPermission("delete", (req) => defineSubject("Article", req.article)),
   async (req, res) => {
     await deleteArticle(req.article);
     res.status(StatusCodes.NO_CONTENT);

@@ -1,13 +1,18 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
 import { checkSchema } from "express-validator";
+import { subject as defineSubject } from "@casl/ability";
 import {
   getCategories,
   createCategory,
   updateCategory,
   deleteCategory,
 } from "../services/index.js";
-import { authMiddleware, checkCategoryExist } from "../middlewares/index.js";
+import {
+  authMiddleware,
+  checkCategoryExist,
+  checkPermission,
+} from "../middlewares/index.js";
 import {
   categoryValidationRules,
   categoryPatchValidationRules,
@@ -113,8 +118,9 @@ categoryRouter.post(
   authMiddleware,
   checkSchema(categoryValidationRules),
   validateSchema,
+  checkPermission("create", () => "Category"),
   async (req, res) => {
-    return res.status(201).json(await createCategory(req.body));
+    res.status(201).json(await createCategory(req.body));
   },
 );
 
@@ -172,8 +178,9 @@ categoryRouter.patch(
   checkSchema(categoryPatchValidationRules),
   validateSchema,
   checkCategoryExist,
+  checkPermission("update", (req) => defineSubject("Category", req.category)),
   async (req, res) => {
-    return res.json(await updateCategory(req.category, req.body));
+    res.json(await updateCategory(req.category, req.body));
   },
 );
 
@@ -220,6 +227,7 @@ categoryRouter.delete(
   "/:categoryId",
   authMiddleware,
   checkCategoryExist,
+  checkPermission("delete", (req) => defineSubject("Category", req.category)),
   async (req, res) => {
     await deleteCategory(req.category);
     res.status(StatusCodes.NO_CONTENT);

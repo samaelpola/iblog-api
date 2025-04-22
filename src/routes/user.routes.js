@@ -1,8 +1,13 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
 import { checkSchema } from "express-validator";
+import { subject as defineSubject } from "@casl/ability";
 import { validateSchema } from "../schemas/index.js";
-import { checkUserExist } from "../middlewares/index.js";
+import {
+  authMiddleware,
+  checkPermission,
+  checkUserExist,
+} from "../middlewares/index.js";
 import {
   getUsers,
   createUser,
@@ -29,7 +34,7 @@ const userRouter = express.Router();
  *     tags: [Users]
  *     summary: Get all users
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: List of users
@@ -48,9 +53,14 @@ const userRouter = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-userRouter.get("/", async (req, res) => {
-  res.json(await getUsers());
-});
+userRouter.get(
+  "/",
+  authMiddleware,
+  checkPermission("read", () => "all"),
+  async (req, res) => {
+    res.json(await getUsers());
+  },
+);
 
 /**
  * @swagger
@@ -59,7 +69,7 @@ userRouter.get("/", async (req, res) => {
  *     tags: [Users]
  *     summary: Get user by ID
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: userId
  *         in: path
@@ -88,9 +98,15 @@ userRouter.get("/", async (req, res) => {
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-userRouter.get("/:userId", checkUserExist, (req, res) => {
-  res.json(req.user);
-});
+userRouter.get(
+  "/:userId",
+  authMiddleware,
+  checkUserExist,
+  checkPermission("read", (req) => defineSubject("User", req.user)),
+  (req, res) => {
+    res.json(req.user);
+  },
+);
 
 /**
  * @swagger
@@ -99,8 +115,6 @@ userRouter.get("/:userId", checkUserExist, (req, res) => {
  *     tags:
  *       - Users
  *     summary: Create a new user
- *     security:
- *       - BearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -146,7 +160,7 @@ userRouter.post(
  *       - Users
  *     summary: Update a user
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: userId
  *         in: path
@@ -189,9 +203,15 @@ userRouter.post(
  */
 userRouter.patch(
   "/:userId",
+  authMiddleware,
   checkSchema(userPatchValidationRules),
   validateSchema,
   checkUserExist,
+  checkPermission(
+    "update",
+    (req) => defineSubject("User", req.user),
+    (req) => Object.keys(req.body),
+  ),
   async (req, res) => {
     return res.json(await updateUser(req.user, req.body));
   },
@@ -205,7 +225,7 @@ userRouter.patch(
  *       - Users
  *     summary: Delete a user
  *     security:
- *       - BearerAuth: []
+ *       - bearerAuth: []
  *     parameters:
  *       - name: userId
  *         in: path
@@ -236,9 +256,15 @@ userRouter.patch(
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-userRouter.delete("/:userId", checkUserExist, async (req, res) => {
-  await deleteUser(req.user);
-  res.status(StatusCodes.NO_CONTENT);
-});
+userRouter.delete(
+  "/:userId",
+  authMiddleware,
+  checkUserExist,
+  checkPermission("delete", (req) => defineSubject("User", req.user)),
+  async (req, res) => {
+    await deleteUser(req.user);
+    res.status(StatusCodes.NO_CONTENT);
+  },
+);
 
 export { userRouter };

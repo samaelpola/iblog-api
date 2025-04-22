@@ -5,7 +5,6 @@ import * as fs from "node:fs";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
 import cors from "cors";
-import { authMiddleware } from "./middlewares/index.js";
 import { appConfig, swaggerOptions } from "./config/index.js";
 import {
   articleRouter,
@@ -33,7 +32,7 @@ export const createApp = () => {
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   app.use("/images/articles", express.static(appConfig.APP_DIR_IMG_PATH));
   app.use("/auth", authRouter);
-  app.use("/users", authMiddleware, userRouter);
+  app.use("/users", userRouter);
   app.use("/articles", articleRouter);
   app.use("/categories", categoryRouter);
 
