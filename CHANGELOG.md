@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/samaelpola/iblog-api/compare/v1.2.0...v1.3.0) (2025-04-22)
+
+
+### Features
+
+* create default admin ([5fc8efb](https://github.com/samaelpola/iblog-api/commit/5fc8efb0b94cede6c7f50f698fd16cb1cc536fbe))
+
 # [1.2.0](https://github.com/samaelpola/iblog-api/compare/v1.1.2...v1.2.0) (2025-04-22)
 
 
