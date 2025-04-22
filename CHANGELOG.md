@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/samaelpola/iblog-api/compare/v1.1.2...v1.2.0) (2025-04-22)
+
+
+### Features
+
+* add user roles and user permission ([57a69ae](https://github.com/samaelpola/iblog-api/commit/57a69ae649adbec60eb3d0bd870934aae55abcb9))
+
 ## [1.1.2](https://github.com/samaelpola/iblog-api/compare/v1.1.1...v1.1.2) (2025-04-21)
 
 
