@@ -71,6 +71,10 @@ const updateUser = async (user, data) => {
     user.gender = data.gender.toUpperCase();
   }
 
+  if (Object.prototype.hasOwnProperty.call(data, "roles")) {
+    user.roles = data.roles;
+  }
+
   await user.save();
   await user.reload();
   return user;

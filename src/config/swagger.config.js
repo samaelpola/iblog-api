@@ -71,6 +71,14 @@ export const swaggerOptions = {
             firstName: { type: "string", example: "Doe" },
             email: { type: "string", example: "john.doe@example.com" },
             gender: { type: "enum", value: ["M", "F"], example: "M" },
+            roles: {
+              type: "array",
+              items: {
+                type: "string",
+                enum: ["ADMIN", "USER"],
+              },
+              example: ["ADMIN"],
+            },
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" },
           },
@@ -124,11 +132,6 @@ export const swaggerOptions = {
         },
       },
     },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
   },
   apis: ["./src/routes/*.js"],
 };

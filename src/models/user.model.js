@@ -1,5 +1,6 @@
 import { sequelize, DataTypes } from "../database/postgres.database.js";
 import { hashPassword } from "../services/index.js";
+import { AppUserRole } from "../utils/index.js";
 
 export const User = sequelize.define(
   "users",
@@ -29,6 +30,11 @@ export const User = sequelize.define(
     gender: {
       type: DataTypes.ENUM("M", "F"),
       allowNull: false,
+    },
+    roles: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: false,
+      defaultValue: [AppUserRole.USER],
     },
   },
   {

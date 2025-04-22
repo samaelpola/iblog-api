@@ -31,7 +31,7 @@ export const authMiddleware = async (req, res, next) => {
       return;
     }
 
-    req.user = user;
+    req.currentUser = user;
     next();
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
