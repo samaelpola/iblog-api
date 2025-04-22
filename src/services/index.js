@@ -18,6 +18,7 @@ export {
 } from "./category.service.js";
 
 export {
+  checkAdminExist,
   checkEmailAlreadyExist,
   createUser,
   deleteUser,

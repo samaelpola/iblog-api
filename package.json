@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
+    "create-default-admin": "node src/scripts/createAdmin.js",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint"
@@ -21,6 +22,7 @@
     "express": "^4.21.1",
     "express-validator": "^7.2.0",
     "http-status-codes": "^2.3.0",
+    "inquirer": "^12.5.2",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.2",

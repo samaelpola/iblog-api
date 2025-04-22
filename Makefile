@@ -15,6 +15,9 @@ exec:
 install:
 	docker compose run --rm app npm install
 
+create-default-admin:
+	docker compose run --rm app npm run create-default-admin
+
 lint:
 	docker compose run --rm app npm run lint
 

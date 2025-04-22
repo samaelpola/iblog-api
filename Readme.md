@@ -44,11 +44,12 @@ docker compose up
 
 ## 🛠 Makefile Commands
 
-| Command        | Description                           |
-|----------------|---------------------------------------|
-| `make build`   | Build the project                     |
-| `make install` | Install dependencies                  |
-| `make up`      | Start the project                     |
-| `make down`    | Stop and remove containers            |
-| `make exec`    | Execute a command inside a container  |
+| Command                     | Description                          |
+|-----------------------------|--------------------------------------|
+| `make build`                | Build the project                    |
+| `make install`              | Install dependencies                 |
+| `make up`                   | Start the project                    |
+| `make down`                 | Stop and remove containers           |
+| `make exec`                 | Execute a command inside a container |
+| `make create-default-admin` | Create a default admin user          |
 
