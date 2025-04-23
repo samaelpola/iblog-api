@@ -11,7 +11,7 @@ export const Category = sequelize.define("categories", {
     allowNull: false,
     unique: true,
   },
-  key: {
+  slug: {
     type: DataTypes.STRING,
     allowNull: false,
   },

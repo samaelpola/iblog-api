@@ -32,8 +32,8 @@ const updateCategory = async (category, data) => {
     category.name = data.name;
   }
 
-  if (Object.prototype.hasOwnProperty.call(data, "key")) {
-    category.key = data.key;
+  if (Object.prototype.hasOwnProperty.call(data, "slug")) {
+    category.slug = data.slug;
   }
 
   await category.save();
