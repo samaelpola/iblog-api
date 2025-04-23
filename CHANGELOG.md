@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/samaelpola/iblog-api/compare/v1.3.0...v1.3.1) (2025-04-23)
+
+
+### Bug Fixes
+
+* rename 'key' field to 'slug' in Category model, set current user as Article author ([ba4df31](https://github.com/samaelpola/iblog-api/commit/ba4df31c69ce1b319e43bb3c9d417407ccaf7eee))
+
 # [1.3.0](https://github.com/samaelpola/iblog-api/compare/v1.2.0...v1.3.0) (2025-04-22)
 
 
