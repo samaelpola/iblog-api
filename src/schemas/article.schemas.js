@@ -1,8 +1,4 @@
-import {
-  checkTitleAlreadyExist,
-  getCategory,
-  getUser,
-} from "../services/index.js";
+import { checkTitleAlreadyExist, getCategory } from "../services/index.js";
 
 const articleValidationRules = {
   title: {
@@ -54,23 +50,6 @@ const articleValidationRules = {
         }
 
         req.category = category;
-      },
-    },
-  },
-  authorId: {
-    in: ["body"],
-    notEmpty: {
-      errorMessage: "authorId is required",
-    },
-    custom: {
-      options: async (value, { req }) => {
-        const user = await getUser(value);
-
-        if (!user) {
-          throw new Error(`user '${value}' not found`);
-        }
-
-        req.author = user;
       },
     },
   },
@@ -130,24 +109,6 @@ const articlePatchValidationRules = {
         }
 
         req.category = category;
-      },
-    },
-  },
-  authorId: {
-    in: ["body"],
-    optional: true,
-    notEmpty: {
-      errorMessage: "authorId is required",
-    },
-    custom: {
-      options: async (value, { req }) => {
-        const user = await getUser(value);
-
-        if (!user) {
-          throw new Error(`user '${value}' not found`);
-        }
-
-        req.author = user;
       },
     },
   },

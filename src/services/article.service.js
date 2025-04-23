@@ -50,7 +50,7 @@ const updateArticleImg = async (article, file) => {
   await article.save();
 };
 
-const updateArticle = async (article, data, category, author) => {
+const updateArticle = async (article, data, category) => {
   if (Object.prototype.hasOwnProperty.call(data, "title")) {
     article.title = data.title;
   }
@@ -65,10 +65,6 @@ const updateArticle = async (article, data, category, author) => {
 
   if (Object.prototype.hasOwnProperty.call(data, "categoryId")) {
     article.setCategory(category);
-  }
-
-  if (Object.prototype.hasOwnProperty.call(data, "authorId")) {
-    article.setAuthor(author);
   }
 
   await article.save();

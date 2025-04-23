@@ -18,13 +18,13 @@ const categoryValidationRules = {
       errorMessage: "Category name already exists",
     },
   },
-  key: {
+  slug: {
     in: ["body"],
     isString: {
-      errorMessage: "key must be a string",
+      errorMessage: "slug must be a string",
     },
     notEmpty: {
-      errorMessage: "key is required",
+      errorMessage: "slug is required",
     },
   },
 };
@@ -48,14 +48,14 @@ const categoryPatchValidationRules = {
       errorMessage: "Category name already exists",
     },
   },
-  key: {
+  slug: {
     in: ["body"],
     optional: true,
     isString: {
-      errorMessage: "key must be a string",
+      errorMessage: "slug must be a string",
     },
     notEmpty: {
-      errorMessage: "key is required",
+      errorMessage: "slug is required",
     },
   },
 };

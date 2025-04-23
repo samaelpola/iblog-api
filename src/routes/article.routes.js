@@ -126,7 +126,11 @@ articleRouter.post(
   validateSchema,
   checkPermission("create", () => "Article"),
   async (req, res) => {
-    const article = await createArticle(req.body, req.category, req.author);
+    const article = await createArticle(
+      req.body,
+      req.category,
+      req.currentUser,
+    );
 
     if (req.file) {
       await updateArticleImg(article, req.file);
@@ -210,12 +214,7 @@ articleRouter.patch(
     (req) => Object.keys(req.body),
   ),
   async (req, res) => {
-    const article = await updateArticle(
-      req.article,
-      req.body,
-      req.category,
-      req.author,
-    );
+    const article = await updateArticle(req.article, req.body, req.category);
     if (req.file) {
       await updateArticleImg(article, req.file);
     }
