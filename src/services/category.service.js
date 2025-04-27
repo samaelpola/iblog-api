@@ -10,8 +10,11 @@ const checkNameAlreadyExist = async (categoryName) => {
   return category !== null;
 };
 
-const getCategories = async () => {
-  return await Category.findAll();
+const getCategories = async (limit = null) => {
+  return await Category.findAll({
+    order: [["createdAt", "DESC"]],
+    ...(limit && { limit }),
+  });
 };
 
 const getCategory = async (categoryId) => {

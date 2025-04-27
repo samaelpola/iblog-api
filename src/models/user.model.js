@@ -36,6 +36,11 @@ export const User = sequelize.define(
       allowNull: false,
       defaultValue: [AppUserRole.USER],
     },
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
   },
   {
     hooks: {

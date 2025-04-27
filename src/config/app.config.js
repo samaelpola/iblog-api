@@ -6,6 +6,7 @@ const allowedOrigins =
 
 export const appConfig = {
   APP_ENV: process.env.NODE_ENV,
+  APP_DIR: path.resolve(process.cwd()),
   APP_DIR_IMG_PATH: path.resolve(process.cwd(), "images", "articles"),
   APP_DIR_IMG_TMP_PATH: path.resolve(process.cwd(), "images", "tmp"),
   APP_PORT: parseInt(process.env.APP_PORT ?? "3000"),

@@ -1,6 +1,6 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import { checkSchema } from "express-validator";
+import { checkSchema, query } from "express-validator";
 import { subject as defineSubject } from "@casl/ability";
 import { validateSchema } from "../schemas/index.js";
 import {
@@ -36,6 +36,13 @@ const userRouter = express.Router();
  *     summary: Get all users
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         description: Number of latest articles to retrieve
  *     responses:
  *       200:
  *         description: List of users
@@ -58,8 +65,15 @@ userRouter.get(
   "/",
   authMiddleware,
   checkPermission("read", () => "all"),
+  [
+    query("limit")
+      .optional()
+      .isInt({ min: 1 })
+      .withMessage("limit must be a positive integer"),
+  ],
   async (req, res) => {
-    res.json(await getUsers());
+    const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
+    res.json(await getUsers(limit));
   },
 );
 
@@ -151,7 +165,7 @@ userRouter.post(
   authNoRequiredMiddleware,
   checkPermission("create", (req) => defineSubject("User", req.body)),
   async (req, res) => {
-    return res.status(StatusCodes.CREATED).json(await createUser(req.body));
+    res.status(StatusCodes.CREATED).json(await createUser(req.body));
   },
 );
 
@@ -216,7 +230,7 @@ userRouter.patch(
     (req) => Object.keys(req.body),
   ),
   async (req, res) => {
-    return res.json(await updateUser(req.user, req.body));
+    res.json(await updateUser(req.user, req.body));
   },
 );
 

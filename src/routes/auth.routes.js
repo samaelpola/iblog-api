@@ -169,7 +169,7 @@ authRouter.post("/logout", (req, res) => {
  *         description: Unauthorized
  */
 authRouter.get("/me", authMiddleware, (req, res) => {
-  return res.json(req.currentUser);
+  res.json(req.currentUser);
 });
 
 export { authRouter };

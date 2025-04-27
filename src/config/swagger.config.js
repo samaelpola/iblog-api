@@ -27,7 +27,7 @@ export const swaggerOptions = {
             title: { type: "string", example: "My First Article" },
             description: { type: "string", example: "Full content..." },
             shortDescription: { type: "string", example: "Short summary" },
-            photo: { type: "string", example: "uploads/articles/1.jpg" },
+            photo: { type: "string", example: "images/articles/1.jpg" },
             categoryId: { type: "integer", example: 2 },
             authorId: { type: "integer", example: 4 },
             createdAt: { type: "string", format: "date-time" },
@@ -36,12 +36,18 @@ export const swaggerOptions = {
         },
         ArticleInput: {
           type: "object",
-          required: ["title", "description", "shortDescription", "categoryId"],
+          required: [
+            "title",
+            "description",
+            "shortDescription",
+            "categoryId",
+            "photo",
+          ],
           properties: {
             title: { type: "string", example: "My First Article" },
             description: { type: "string", example: "Full content..." },
             shortDescription: { type: "string", example: "Short summary" },
-            photo: { type: "string", example: "uploads/articles/1.jpg" },
+            photo: { type: "file", example: "images/articles/1.jpg" },
             categoryId: { type: "integer", example: 2 },
           },
         },
@@ -50,17 +56,17 @@ export const swaggerOptions = {
           properties: {
             id: { type: "integer", example: 1 },
             name: { type: "string", example: "My First Category" },
-            key: { type: "string", example: "My First Category" },
+            slug: { type: "string", example: "my-first-category" },
             createdAt: { type: "string", format: "date-time" },
             updatedAt: { type: "string", format: "date-time" },
           },
         },
         CategoryInput: {
           type: "object",
-          required: ["name", "key"],
+          required: ["name", "slug"],
           properties: {
             name: { type: "string", example: "My First Category" },
-            key: { type: "string", example: "My First Category" },
+            slug: { type: "string", example: "My First Category" },
           },
         },
         User: {
@@ -71,6 +77,7 @@ export const swaggerOptions = {
             firstName: { type: "string", example: "Doe" },
             email: { type: "string", example: "john.doe@example.com" },
             gender: { type: "enum", value: ["M", "F"], example: "M" },
+            active: { type: "boolean", example: true },
             roles: {
               type: "array",
               items: {
@@ -92,6 +99,7 @@ export const swaggerOptions = {
             password: { type: "string", example: "password" },
             email: { type: "string", example: "john.doe@example.com" },
             gender: { type: "enum", value: ["M", "F"], example: "M" },
+            active: { type: "boolean", example: true },
           },
         },
         LoginInput: {

@@ -40,8 +40,11 @@ const verifyCredentials = async (credentials) => {
   return isPasswordMatched ? user : null;
 };
 
-const getUsers = async () => {
-  return await User.findAll();
+const getUsers = async (limit = null) => {
+  return await User.findAll({
+    order: [["createdAt", "DESC"]],
+    ...(limit && { limit }),
+  });
 };
 
 const getUser = async (userId) => {

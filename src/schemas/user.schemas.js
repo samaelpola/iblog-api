@@ -98,6 +98,13 @@ const userValidationRules = {
   password: commonStringRule("password"),
   gender: genderValidation,
   roles: rolesValidation,
+  active: {
+    in: ["body"],
+    optional: true,
+    isBoolean: {
+      errorMessage: "active must be a boolean",
+    },
+  },
 };
 
 const userPatchValidationRules = {
@@ -112,6 +119,13 @@ const userPatchValidationRules = {
   email: emailValidation(true),
   gender: genderValidation,
   roles: rolesValidation,
+  active: {
+    in: ["body"],
+    optional: true,
+    isBoolean: {
+      errorMessage: "active must be a boolean",
+    },
+  },
 };
 
 export { userValidationRules, userPatchValidationRules };

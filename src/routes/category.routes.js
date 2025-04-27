@@ -1,6 +1,6 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import { checkSchema } from "express-validator";
+import { checkSchema, query } from "express-validator";
 import { subject as defineSubject } from "@casl/ability";
 import {
   getCategories,
@@ -32,10 +32,17 @@ const categoryRouter = express.Router();
  * /categories:
  *   get:
  *     tags: [Categories]
- *     summary: Get all categories
+ *     summary: Get all category
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         description: Number of latest categories to retrieve
  *     responses:
  *       200:
- *         description: List of categories
+ *         description: List of category
  *         content:
  *           application/json:
  *             schema:
@@ -43,9 +50,19 @@ const categoryRouter = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Category'
  */
-categoryRouter.get("/", async (req, res) => {
-  res.json(await getCategories());
-});
+categoryRouter.get(
+  "/",
+  [
+    query("limit")
+      .optional()
+      .isInt({ min: 1 })
+      .withMessage("limit must be a positive integer"),
+  ],
+  async (req, res) => {
+    const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
+    res.json(await getCategories(limit));
+  },
+);
 
 /**
  * @swagger

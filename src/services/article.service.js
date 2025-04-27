@@ -13,8 +13,11 @@ const checkTitleAlreadyExist = async (articleTittle) => {
   return article !== null;
 };
 
-const getArticles = async () => {
-  return await Article.findAll();
+const getArticles = async (limit = null) => {
+  return await Article.findAll({
+    order: [["createdAt", "DESC"]],
+    ...(limit && { limit }),
+  });
 };
 
 const getArticle = async (articleId) => {
@@ -36,6 +39,11 @@ const createArticle = async (article, category, author) => {
 };
 
 const deleteArticle = async (article) => {
+  const filePath = path.join(appConfig.APP_DIR, article.photo);
+  if (fs.existsSync(filePath)) {
+    fs.unlinkSync(filePath);
+  }
+
   await article.destroy();
 };
 
