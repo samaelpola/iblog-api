@@ -80,6 +80,10 @@ const updateUser = async (user, data) => {
     user.roles = data.roles;
   }
 
+  if (Object.prototype.hasOwnProperty.call(data, "active")) {
+    user.active = data.active;
+  }
+
   await user.save();
   await user.reload();
   return user;
