@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/samaelpola/iblog-api/compare/v1.3.3...v1.4.0) (2025-04-27)
+
+
+### Features
+
+* update article ([25da0a4](https://github.com/samaelpola/iblog-api/commit/25da0a4d37bcbf05b5ceb61cfed105e787c42bfa))
+
 ## [1.3.3](https://github.com/samaelpola/iblog-api/compare/v1.3.2...v1.3.3) (2025-04-27)
 
 
