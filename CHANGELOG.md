@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/samaelpola/iblog-api/compare/v1.3.1...v1.3.2) (2025-04-27)
+
+
+### Bug Fixes
+
+* app ([5234275](https://github.com/samaelpola/iblog-api/commit/52342759fa5f2f4bb9c8170de3ca6687f5aa7926))
+
 ## [1.3.1](https://github.com/samaelpola/iblog-api/compare/v1.3.0...v1.3.1) (2025-04-23)
 
 
