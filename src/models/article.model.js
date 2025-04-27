@@ -12,7 +12,7 @@ export const Article = sequelize.define("articles", {
     unique: true,
   },
   description: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
   shortDescription: {
