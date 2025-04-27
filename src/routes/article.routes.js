@@ -1,6 +1,6 @@
 import express from "express";
 import { StatusCodes } from "http-status-codes";
-import { checkSchema } from "express-validator";
+import { checkSchema, query } from "express-validator";
 import { subject as defineSubject } from "@casl/ability";
 import {
   getArticles,
@@ -36,6 +36,13 @@ const articleRouter = express.Router();
  *   get:
  *     summary: Get all articles
  *     tags: [Articles]
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         description: Number of latest articles to retrieve
  *     responses:
  *       200:
  *         description: List of articles
@@ -46,9 +53,19 @@ const articleRouter = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Article'
  */
-articleRouter.get("/", async (req, res) => {
-  res.json(await getArticles());
-});
+articleRouter.get(
+  "/",
+  [
+    query("limit")
+      .optional()
+      .isInt({ min: 1 })
+      .withMessage("limit must be a positive integer"),
+  ],
+  async (req, res) => {
+    const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
+    res.json(await getArticles(limit));
+  },
+);
 
 /**
  * @swagger
@@ -136,7 +153,7 @@ articleRouter.post(
       await updateArticleImg(article, req.file);
     }
 
-    return res.status(StatusCodes.CREATED).json(article);
+    res.status(StatusCodes.CREATED).json(article);
   },
 );
 
@@ -215,10 +232,12 @@ articleRouter.patch(
   ),
   async (req, res) => {
     const article = await updateArticle(req.article, req.body, req.category);
+
     if (req.file) {
       await updateArticleImg(article, req.file);
     }
-    return res.json(article);
+
+    res.json(article);
   },
 );
 

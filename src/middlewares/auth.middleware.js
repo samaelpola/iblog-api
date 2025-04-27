@@ -15,7 +15,7 @@ export const authMiddleware = async (req, res, next) => {
   const tokenKeys = authorization.split(" ");
   if (tokenKeys[0] !== "Bearer") {
     res
-      .sendStatus(StatusCodes.UNAUTHORIZED)
+      .status(StatusCodes.UNAUTHORIZED)
       .json({ detail: getReasonPhrase(StatusCodes.UNAUTHORIZED) });
     return;
   }
@@ -25,8 +25,15 @@ export const authMiddleware = async (req, res, next) => {
     const payload = jwtService.verifyAccessToken(tokenKeys[1]);
     const user = await getUser(payload.id);
     if (!user) {
-      res.sendStatus(StatusCodes.FORBIDDEN).json({
+      res.status(StatusCodes.FORBIDDEN).json({
         error: `User '${payload.id}' not found`,
+      });
+      return;
+    }
+
+    if (!user.active) {
+      res.status(StatusCodes.FORBIDDEN).json({
+        error: `User '${payload.id}' is not active`,
       });
       return;
     }
@@ -53,7 +60,8 @@ export const authNoRequiredMiddleware = async (req, res, next) => {
 
   if (!authorization || !authorization.startsWith("Bearer ")) {
     req.currentUser = null;
-    return next();
+    next();
+    return;
   }
 
   const token = authorization.split(" ")[1];
@@ -66,5 +74,5 @@ export const authNoRequiredMiddleware = async (req, res, next) => {
     req.currentUser = null;
   }
 
-  return next();
+  next();
 };
