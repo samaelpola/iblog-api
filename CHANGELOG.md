@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/samaelpola/iblog-api/compare/v1.4.0...v1.4.1) (2025-04-27)
+
+
+### Bug Fixes
+
+* update article model ([b9714f3](https://github.com/samaelpola/iblog-api/commit/b9714f32425ac29c4f25cfd3424b8ed1382673ba))
+
 # [1.4.0](https://github.com/samaelpola/iblog-api/compare/v1.3.3...v1.4.0) (2025-04-27)
 
 
