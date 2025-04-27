@@ -13,10 +13,12 @@ const checkTitleAlreadyExist = async (articleTittle) => {
   return article !== null;
 };
 
-const getArticles = async (limit = null) => {
+const getArticles = async (limit = null, authorId = null) => {
   return await Article.findAll({
     order: [["createdAt", "DESC"]],
     ...(limit && { limit }),
+    where: authorId ? { authorId } : undefined,
+    include: { all: true },
   });
 };
 

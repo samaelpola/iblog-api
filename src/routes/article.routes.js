@@ -11,6 +11,7 @@ import {
 } from "../services/index.js";
 import {
   authMiddleware,
+  authNoRequiredMiddleware,
   checkArticleExist,
   checkPermission,
   removeUploadedFileMiddleware,
@@ -43,6 +44,11 @@ const articleRouter = express.Router();
  *           type: integer
  *           minimum: 1
  *         description: Number of latest articles to retrieve
+ *       - in: query
+ *         name: myArticle
+ *         schema:
+ *           type: boolean
+ *         description: Retrieve only my articles
  *     responses:
  *       200:
  *         description: List of articles
@@ -60,10 +66,18 @@ articleRouter.get(
       .optional()
       .isInt({ min: 1 })
       .withMessage("limit must be a positive integer"),
+    query("myArticle")
+      .optional()
+      .isBoolean()
+      .withMessage("myArticle must be a boolean"),
   ],
+  authNoRequiredMiddleware,
   async (req, res) => {
     const limit = req.query.limit ? parseInt(req.query.limit, 10) : null;
-    res.json(await getArticles(limit));
+    const myArticle =
+      req.query.myArticle === "true" || req.query.myArticle === true;
+    const authorId = myArticle && req.currentUser ? req.currentUser.id : null;
+    res.json(await getArticles(limit, authorId));
   },
 );
 
