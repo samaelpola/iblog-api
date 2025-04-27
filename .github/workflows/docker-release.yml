@@ -9,7 +9,13 @@ env:
   IMAGE_NAME: iblog-api
 
 jobs:
+  run-lint-test:
+    name: Run Lint Test Workflow
+    uses: ./.github/workflows/lint-test.yml
+    secrets: inherit
+
   build-push:
+    needs: run-lint-test
     name: Build & Push Docker Image
     runs-on: ubuntu-latest
     steps:
