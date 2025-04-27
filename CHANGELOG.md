@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/samaelpola/iblog-api/compare/v1.3.2...v1.3.3) (2025-04-27)
+
+
+### Bug Fixes
+
+* update field active ([67605ab](https://github.com/samaelpola/iblog-api/commit/67605aba6347b6782a3d6615c24d2000d854d7d6))
+
 ## [1.3.2](https://github.com/samaelpola/iblog-api/compare/v1.3.1...v1.3.2) (2025-04-27)
 
 
