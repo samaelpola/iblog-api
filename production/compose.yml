@@ -1,0 +1,25 @@
+services:
+  app:
+    image: ${IMAGE}:${IMAGE_TAG}
+    restart: always
+    volumes:
+      - app_data:/app
+    ports:
+      -   "3000:3000"
+    env_file:
+      - env.production.template
+    depends_on:
+      postgres:
+        condition: service_started
+
+  postgres:
+    image: postgres:17.0-alpine
+    restart: always
+    env_file:
+      - env.production.template
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  - app_data:
+  - db_data:

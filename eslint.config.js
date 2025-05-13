@@ -3,6 +3,7 @@ import globals from "globals";
 import pluginJs from "@eslint/js";
 import { defineConfig } from "eslint/config";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import jest from "eslint-plugin-jest";
 
 export default defineConfig([
   {
@@ -32,4 +33,12 @@ export default defineConfig([
     },
   },
   eslintPluginPrettierRecommended,
+  {
+    files: ["src/tests/**/*.{js,ts}"],
+    ...jest.configs["flat/recommended"],
+    rules: {
+      ...jest.configs["flat/recommended"].rules,
+      "jest/prefer-expect-assertions": "off",
+    },
+  },
 ]);
