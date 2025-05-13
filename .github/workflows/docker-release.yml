@@ -51,7 +51,7 @@ jobs:
           fi
           CLEAN_TAG="${TAG#v}"
           echo "RELEASE_VERSION=$CLEAN_TAG" >> $GITHUB_ENV
-          echo "RELEASE_VERSION=$TAG" >> $GITHUB_OUTPUT
+          echo "RELEASE_VERSION=$CLEAN_TAG" >> $GITHUB_OUTPUT
           echo "Using version: '$CLEAN_TAG'"
 
       - name: Login to Docker Hub
