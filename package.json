@@ -6,7 +6,7 @@
     "dev": "nodemon index.js",
     "create-default-admin": "node src/scripts/createAdmin.js",
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --coverage --detectOpenHandles",
     "lint": "eslint"
   },
   "type": "module",
@@ -35,8 +35,10 @@
     "@eslint/js": "^9.24.0",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-prettier": "^5.2.6",
     "globals": "^16.0.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.7",
     "prettier": "^3.5.3"
   }
