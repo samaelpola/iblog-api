@@ -109,11 +109,12 @@ jobs:
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
         run: |
-          envsubst < production/env.production.template > .env 
+          envsubst < production/env.production.template > production/.env 
 
       - name: Copy environment file file to server
         run: |
-          scp .env ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/var/api/.env
+          cd production
+          scp .env compose.yml ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }}:/var/api/
 
       - name: Deploy via Docker Compose
         run: |
@@ -123,4 +124,4 @@ jobs:
           EOF
 
       - name: Clean up
-        run: rm -f .env
+        run: rm -f production/.env
